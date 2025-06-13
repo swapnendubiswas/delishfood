@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delish Recipes | Home</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🍲 Delish Recipes</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="receipt.html">Receipt</a>
+
+      <a href="order.html">View Cart / Order Now</a>
+
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Welcome to Delish Recipes!</h2>
+    <p>Discover simple and tasty recipes for every mood.</p>
+    <input type="text" id="searchInput" placeholder="Search recipes..." />
+  </section>
+
+  <section class="featured">
+    <h2>🍛 Featured Recipes</h2>
+    <div class="recipe-cards" id="recipeList">
+      <div class="card"> <img src="images/pasta.jpg" alt="Pasta" /> <h3>Cheesy Pasta</h3> </div>
+      <div class="card"> <img src="images/biryani.jpg" alt="Biryani" /> <h3>Chicken Biryani</h3> </div>
+      <div class="card"> <img src="images/pancake.jpg" alt="Pancake" /> <h3>Banana Pancakes</h3> </div>
+      <div class="card"> <img src="images/salad.jpg" alt="Salad" /> <h3>Fresh Garden Salad</h3> </div>
+      <div class="card"> <img src="images/soup.jpg" alt="Soup" /> <h3>Tomato Soup</h3> </div>
+        <div class="card"> <img src="images/sandwich.jpg" alt="Veg Sandwich" /> <h3>Veg Sandwich</h3> </div>
+        <div class="card"> <img src="images/fruitchaat.jpg" alt="Fruit Chaat" /> <h3>Fruit Chaat</h3> </div>
+    </div>
+
+   
+
+  <section class="contact">
+    <h2>📩 Contact Me</h2>
+    <form onsubmit="return validateContactForm()">
+      <input type="text" id="name" placeholder="Your Name" />
+      <input type="email" id="email" placeholder="Your Email" />
+      <textarea id="message" placeholder="Your Message"></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <p>📍 Location: Karimpur, Nadia, West Bengal</p>
+    <p>📞 Phone: <a href="tel:7074387252">7074387252</a></p>
+    <p>📸 Instagram: <a href="https://www.instagram.com/swapno_on_percussion/" target="_blank">@swapno_on_percussion</a></p>
+  </section>
+
+  <button onclick="scrollToTop()" id="scrollBtn" style="display: none;">⬆️ Top</button>
+  <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+
+  <footer>
+    <p>© 2025 Delish Recipes | Made with ❤️ by Swapnendu</p>
+  </footer>
+
+  <script>
+    // 🔍 Recipe Search
+    const input = document.getElementById("searchInput");
+    const recipes = document.querySelectorAll("#recipeList .card");
+    input.addEventListener("input", () => {
+      const query = input.value.toLowerCase();
+      recipes.forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(query) ? "block" : "none";
+      });
+    });
+
+    // 🌙 Dark Mode Toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    // ⬆️ Scroll to Top
+    const scrollBtn = document.getElementById("scrollBtn");
+    window.onscroll = function () {
+      scrollBtn.style.display = window.scrollY > 200 ? "block" : "none";
+    };
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // 📩 Contact Form Validation
+    function validateContactForm() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      if (!name || !email || !message) {
+        alert("Please fill all fields.");
+        return false;
+      }
+      alert("Message sent successfully!");
+      return true;
+    }
+
+    // ➕ Show More Recipes
+    function showMore() {
+      document.querySelector(".extra-recipes").style.display = "flex";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delish Recipes | Your Order</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    .order-summary {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .order-summary h2 {
+      text-align: center;
+      color: #1f1a1a;
+      margin-bottom: 20px;
+    }
+    .cart-item {
+      background: #fff8f0;
+      margin: 10px 0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+    }
+    #totalPrice {
+      text-align: right;
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    .order-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 30px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .order-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍲 Delish Recipes</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="order.html" style="font-weight: bold;">Order</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+        <a href="receipt.html">Receipt</a>
+    </nav>
+  </header>
+
+  <section class="order-summary">
+    <h2>Your Order Summary</h2>
+    <div id="cartItems"></div>
+    <div id="totalPrice"></div>
+    <button class="order-btn" onclick="placeOrder()">Place Order</button>
+  </section>
+
+  <footer>
+    <p>© 2025 Delish Recipes | Made with ❤️ by Swapnendu</p>
+  </footer>
+
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cartItems");
+      let total = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>🛒 Your cart is empty.</p>";
+        document.getElementById("totalPrice").textContent = "";
+        return;
+      }
+
+      container.innerHTML = cart.map(item => {
+        total += item.price;
+        return `<div class="cart-item"><span>${item.item}</span><span>₹${item.price}</span></div>`;
+      }).join("");
+
+      document.getElementById("totalPrice").textContent = "Total: ₹" + total;
+    }
+
+    function placeOrder() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cart.length === 0) {
+        alert("🛑 Cart is empty!");
+        return;
+      }
+
+      // 🚀 Send order to backend server
+      fetch('http://localhost:3000/place-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          items: cart,
+          total: cart.reduce((sum, item) => sum + item.price, 0),
+          time: new Date().toISOString()
+        })
+      })
+      .then(res => res.text())
+      .then(msg => {
+        alert("🎉 " + msg + "\nThank you for choosing Delish Recipes!");
+        localStorage.removeItem("cart");
+        location.reload();
+      })
+      .catch(err => {
+        alert("❌ Failed to place order. Please try again.");
+        console.error(err);
+      });
+    }
+
+    window.onload = loadCart;
+  </script>
+
+</body>
+</html>

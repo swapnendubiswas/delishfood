@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receipt</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #fefefe;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .receipt-box {
+      border: 1px solid #ccc;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      animation: fadeSlide 0.7s ease-in-out;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #e74c3c;
+      margin-bottom: 20px;
+      animation: pulse 1s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.02); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      padding: 6px;
+      border-bottom: 1px dashed #ddd;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .item:nth-child(1) { animation-delay: 0.2s; }
+    .item:nth-child(2) { animation-delay: 0.4s; }
+    .item:nth-child(3) { animation-delay: 0.6s; }
+    .item:nth-child(4) { animation-delay: 0.8s; }
+    .item:nth-child(5) { animation-delay: 1s; }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(20px); }
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 15px;
+      text-align: right;
+      font-size: 18px;
+      color: #2c3e50;
+    }
+
+    button {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="receipt-box" id="receiptContent">
+    <h2>🧾 Delish Recipes - Receipt</h2>
+    <div id="itemsList"></div>
+    <div class="total" id="totalAmount"></div>
+  </div>
+
+  <button onclick="downloadPDF()">📄 Download Receipt PDF</button>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const itemsList = document.getElementById("itemsList");
+    let total = 0;
+
+    if (cart.length === 0) {
+      itemsList.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+      cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement("div");
+        div.classList.add("item");
+        div.style.animationDelay = `${(index + 1) * 0.2}s`;
+        div.innerHTML = `<span>${item.item}</span><span>₹${item.price}</span>`;
+        itemsList.appendChild(div);
+      });
+    }
+
+    document.getElementById("totalAmount").textContent = `Total: ₹${total}`;
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Delish Recipes - Receipt", 20, 20);
+      let y = 40;
+      cart.forEach(item => {
+        doc.text(`${item.item} - ₹${item.price}`, 20, y);
+        y += 10;
+      });
+      doc.text(`Total: ₹${total}`, 20, y + 10);
+      doc.save("receipt.pdf");
+    }
+  </script>
+</body>
+</html>

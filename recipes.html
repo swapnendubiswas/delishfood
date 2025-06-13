@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delish Recipes | All Recipes</title>
+  <link rel="stylesheet" href="style/style.css" />
+  <style>
+    .add-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #e67e22;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .add-btn:hover {
+      background-color: #d35400;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🍲 Delish Recipes</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="recipes.html">Recipes</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="order.html">View Cart / Order Now</a>
+      <a href="receipt.html">Receipt</a>
+    </nav>
+  </header>
+
+  <section class="featured">
+    <h2>All Recipes</h2>
+    <div class="recipe-cards">
+
+      <div class="card">
+        <a href="pasta.html">
+          <img src="images/pasta.jpg" alt="Pasta" />
+          <h3>Cheesy Pasta</h3>
+        </a>
+        <p>A quick and creamy pasta dish.</p>
+        <button class="add-btn" onclick="addToCart('Cheesy Pasta', 150)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="biryani.html">
+          <img src="images/biryani.jpg" alt="Biryani" />
+          <h3>Chicken Biryani</h3>
+        </a>
+        <p>Flavor-packed traditional biryani.</p>
+        <button class="add-btn" onclick="addToCart('Chicken Biryani', 180)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="pancake.html">
+          <img src="images/pancake.jpg" alt="Pancake" />
+          <h3>Banana Pancakes</h3>
+        </a>
+        <p>Sweet and fluffy pancakes to start your day!</p>
+        <button class="add-btn" onclick="addToCart('Banana Pancakes', 120)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="salad.html">
+          <img src="images/salad.jpg" alt="Salad" />
+          <h3>Healthy Salad</h3>
+        </a>
+        <p>Fresh and crispy green salad with lemon dressing.</p>
+        <button class="add-btn" onclick="addToCart('Healthy Salad', 90)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="soup.html">
+          <img src="images/soup.jpg" alt="Soup" />
+          <h3>Tomato Soup</h3>
+        </a>
+        <p>Warm and comforting homemade tomato soup.</p>
+        <button class="add-btn" onclick="addToCart('Tomato Soup', 100)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="sandwich.html">
+          <img src="images/sandwich.jpg" alt="Veg Sandwich" />
+          <h3>Veg Sandwich</h3>
+        </a>
+        <p>Easy and healthy snack packed with veggies and flavor.</p>
+        <button class="add-btn" onclick="addToCart('Veg Sandwich', 110)">Add to Cart</button>
+      </div>
+
+      <div class="card">
+        <a href="fruitchaat.html">
+          <img src="images/fruitchaat.jpg" alt="Fruit Chaat" />
+          <h3>Fruit Chaat</h3>
+        </a>
+        <p>Refreshing mix of seasonal fruits with chaat masala twist.</p>
+        <button class="add-btn" onclick="addToCart('Fruit Chaat', 95)">Add to Cart</button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Delish Recipes | Made with ❤️ by Swapnendu</p>
+  </footer>
+
+  <script>
+    function addToCart(item, price) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push({ item, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${item} added to cart!`);
+    }
+  </script>
+</body>
+</html>
