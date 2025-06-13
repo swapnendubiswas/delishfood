@@ -4,28 +4,26 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-
-// ✅ Use Render-provided port OR fallback to 3000 for local dev
 const PORT = process.env.PORT || 3000;
 
-// ✅ CORS for both local and any frontend
+// CORS setup
 const corsOptions = {
-  origin: '*', // Allow all origins OR add specific domain like: ['https://swapnendubiswas.github.io']
+  origin: '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-
-// ✅ Serve static files (optional, only if needed)
 app.use(express.static(path.join(__dirname)));
 
-// 🔁 Order handler
+const ordersFilePath = path.join(__dirname, 'orders.json');
+
+// Handle order placement
 app.post('/place-order', (req, res) => {
   const newOrder = req.body;
 
-  fs.readFile('orders.json', 'utf8', (err, data) => {
+  fs.readFile(ordersFilePath, 'utf8', (err, data) => {
     let orders = [];
     if (!err && data) {
       try {
@@ -37,7 +35,7 @@ app.post('/place-order', (req, res) => {
 
     orders.push(newOrder);
 
-    fs.writeFile('orders.json', JSON.stringify(orders, null, 2), (err) => {
+    fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), (err) => {
       if (err) {
         console.error("❌ Failed to write file:", err);
         return res.status(500).send("Failed to save order");
@@ -48,7 +46,6 @@ app.post('/place-order', (req, res) => {
   });
 });
 
-// ✅ Start server using correct port
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
