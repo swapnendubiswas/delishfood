@@ -4,11 +4,13 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
 
-// ✅ Advanced CORS setup (allow localhost + 127.0.0.1)
+// ✅ Use Render-provided port OR fallback to 3000 for local dev
+const PORT = process.env.PORT || 3000;
+
+// ✅ CORS for both local and any frontend
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin: '*', // Allow all origins OR add specific domain like: ['https://swapnendubiswas.github.io']
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 };
@@ -16,7 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// ✅ Serve static files (HTML, CSS, JS, images etc.)
+// ✅ Serve static files (optional, only if needed)
 app.use(express.static(path.join(__dirname)));
 
 // 🔁 Order handler
@@ -46,7 +48,7 @@ app.post('/place-order', (req, res) => {
   });
 });
 
-// ✅ Start the server
+// ✅ Start server using correct port
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at: http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
