@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Delish Recipes | Home</title>
   <link rel="stylesheet" href="style/style.css" />
+
+  <!-- PWA Manifest & Theme Color -->
+  <link rel="manifest" href="manifest.json?v=99">
+
+  <meta name="theme-color" content="#ff6f61" />
 </head>
 <body>
   <header>
@@ -15,9 +20,7 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a href="receipt.html">Receipt</a>
-
       <a href="order.html">View Cart / Order Now</a>
-
     </nav>
   </header>
 
@@ -35,11 +38,10 @@
       <div class="card"> <img src="images/pancake.jpg" alt="Pancake" /> <h3>Banana Pancakes</h3> </div>
       <div class="card"> <img src="images/salad.jpg" alt="Salad" /> <h3>Fresh Garden Salad</h3> </div>
       <div class="card"> <img src="images/soup.jpg" alt="Soup" /> <h3>Tomato Soup</h3> </div>
-        <div class="card"> <img src="images/sandwich.jpg" alt="Veg Sandwich" /> <h3>Veg Sandwich</h3> </div>
-        <div class="card"> <img src="images/fruitchaat.jpg" alt="Fruit Chaat" /> <h3>Fruit Chaat</h3> </div>
+      <div class="card"> <img src="images/sandwich.jpg" alt="Veg Sandwich" /> <h3>Veg Sandwich</h3> </div>
+      <div class="card"> <img src="images/fruitchaat.jpg" alt="Fruit Chaat" /> <h3>Fruit Chaat</h3> </div>
     </div>
-
-   
+  </section>
 
   <section class="contact">
     <h2>📩 Contact Me</h2>
@@ -61,8 +63,9 @@
     <p>© 2025 Delish Recipes | Made with ❤️ by Swapnendu</p>
   </footer>
 
+  <!-- JavaScript Code -->
   <script>
-    // 🔍 Recipe Search
+    // Recipe Search
     const input = document.getElementById("searchInput");
     const recipes = document.querySelectorAll("#recipeList .card");
     input.addEventListener("input", () => {
@@ -72,12 +75,12 @@
       });
     });
 
-    // 🌙 Dark Mode Toggle
+    // Dark Mode Toggle
     function toggleDarkMode() {
       document.body.classList.toggle("dark-mode");
     }
 
-    // ⬆️ Scroll to Top
+    // Scroll to Top
     const scrollBtn = document.getElementById("scrollBtn");
     window.onscroll = function () {
       scrollBtn.style.display = window.scrollY > 200 ? "block" : "none";
@@ -86,7 +89,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // 📩 Contact Form Validation
+    // Contact Form Validation
     function validateContactForm() {
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -99,9 +102,11 @@
       return true;
     }
 
-    // ➕ Show More Recipes
-    function showMore() {
-      document.querySelector(".extra-recipes").style.display = "flex";
+    // Service Worker Registration for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('✅ Service Worker Registered!', reg))
+        .catch(err => console.error('❌ Service Worker registration failed:', err));
     }
   </script>
 </body>
